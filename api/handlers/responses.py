@@ -13,7 +13,10 @@ from api.request_errors import (
     log_unexpected_api_exception,
     require_non_empty_messages,
 )
-from api.response_streams import openai_responses_sse_streaming_response
+from api.response_streams import (
+    EGRESS_STREAM_INTERRUPTED_MESSAGE,
+    openai_responses_sse_streaming_response,
+)
 from config.settings import Settings
 from core.anthropic import get_user_facing_error_message
 from core.openai_responses import OpenAIResponsesAdapter
@@ -78,6 +81,9 @@ class ResponsesHandler:
                     request_payload,
                 ),
                 headers=self._responses_adapter.sse_headers,
+                emit_error_frame=lambda: self._responses_adapter.egress_error_frame(
+                    EGRESS_STREAM_INTERRUPTED_MESSAGE
+                ),
             )
         except OpenAIResponsesAdapter.ConversionError as exc:
             invalid_request = InvalidRequestError(str(exc))
