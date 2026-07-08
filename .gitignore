@@ -47,3 +47,21 @@ Thumbs.db
 # Replit
 .cache/
 .local/
+
+# Python
+__pycache__
+.claude
+.cursor
+.pytest_cache
+.ruff_cache
+.serena
+.venv
+agent_workspace
+.env
+/logs/
+server.log
+/server.*.log
+debug-*.log
+.coverage
+llama_cache
+.smoke-results
